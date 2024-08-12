@@ -15,6 +15,7 @@ public class Program
         App[] allApps = FileHelper.GetAllApps(appsSubDir);
         string query = string.Empty;
         App[] matches = allApps;
+        int selectedIndex = 0;
 
         if (allApps.Length > 0)
         {
@@ -22,15 +23,23 @@ public class Program
             {
                 Console.Clear();
 
-                foreach (App a in matches)
+                for (int i = 0; i < matches.Length; i++)
                 {
+                    App a = matches[i];
+
+                    if (i == selectedIndex)
+                    {
+                        Console.Write("> ");
+                    }
+                    else
+                    {
+                        Console.Write("  ");
+                    }
+
                     Console.WriteLine(a.Name);
                 }
 
-                Console.WriteLine();
-                Console.WriteLine();
-
-                Console.Write(query);
+                Console.Write("\n  " + query);
                 ConsoleKeyInfo keyInfo = Console.ReadKey(true);
                 ConsoleKey key = keyInfo.Key;
                 char keyChar = keyInfo.KeyChar;
@@ -40,6 +49,17 @@ public class Program
                     if (query.Length > 0)
                     {
                         query = query.Remove(query.Length - 1);
+                    }
+                }
+                else if (key == ConsoleKey.Tab)
+                {
+                    if (keyInfo.Modifiers.HasFlag(ConsoleModifiers.Shift))
+                    {
+                        selectedIndex -= 1;
+                    }
+                    else
+                    {
+                        selectedIndex += 1;
                     }
                 }
                 else if (key == ConsoleKey.Enter)
@@ -69,14 +89,15 @@ public class Program
                 {
                     matches = allApps;
                 }
+
+                selectedIndex = Math.Clamp(selectedIndex, 0, Math.Max(0, matches.Length - 1));
             }
 
-            FileHelper.RunShortcut(matches[0].Path);
+            FileHelper.RunShortcut(matches[selectedIndex].Path);
         }
         else
         {
             Console.WriteLine($"There are no shortcut files in `{FileHelper.GetAppsPath(appsSubDir)}`, or it does not exist.");
-            
             Console.Write("Press any key to exit...");
             Console.ReadKey(false);
         }
