@@ -1,6 +1,6 @@
 # QuickLauncher
  
-Windows Start Menu Alternative
+Keyboard-based Windows start menu alternative
 
 App is launched when it is the only result that matches you query
 
