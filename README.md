@@ -19,6 +19,8 @@ Put shortcut files in `%appdata%\QuickLauncher\Apps\`
       - 0
       - 1
       - 2
+      - test
+      - Your_Folder
       - etc.
 
 Accessed via. command line arguments:
@@ -26,6 +28,8 @@ Accessed via. command line arguments:
 Default: `QuickLauncher.exe 0`
 
 `QuickLauncher.exe 1`
+
+`QuickLauncher.exe Your_Folder`
 
 etc.
 
@@ -36,3 +40,7 @@ etc.
   App 2
   App 3
 ```
+
+### Nesting
+
+If you want, you can put a shortcut to Quick Launcher that targets a different subdirectory in the apps folder
