@@ -19,8 +19,12 @@ namespace QuickLauncher
 
         public static string GetAppsPath()
         {
+            return GetAppsPath("0");
+        }
+        public static string GetAppsPath(string subDir)
+        {
             string appDataPath = GetAppDataPath();
-            return Path.Combine(appDataPath, "Apps");
+            return Path.Combine(appDataPath, "Apps", subDir);
         }
 
         public static void CreateAppDataIfNone()
@@ -41,32 +45,51 @@ namespace QuickLauncher
 
         public static App[] GetAllApps()
         {
-            return GetAllApps(String.Empty);
+            return GetAllApps("0");
         }
-        public static App[] GetAllApps(string startsWith)
+        public static App[] GetAllApps(string subDir)
+        {
+            return GetAllApps(subDir, String.Empty);
+        }
+        public static App[] GetAllApps(string subDir, string startsWith)
         {
             CreateAppDataIfNone();
 
-            string appsDir = GetAppsPath();
-            string[] files = Directory.GetFiles(appsDir, "*.lnk");
+            string appsDir = GetAppsPath(subDir);
 
-            HashSet<App> apps = new HashSet<App>();
-
-            foreach (string f in files)
+            if (Directory.Exists(appsDir))
             {
-                App a = new App
-                {
-                    Name = Path.GetFileNameWithoutExtension(f),
-                    Path = f
-                };
+                string[] files = Directory.GetFiles(appsDir, "*.lnk");
 
-                if (a.Name.StartsWith(startsWith))
+                if (files.Length > 0)
                 {
-                    apps.Add(a);
+                    HashSet<App> apps = new HashSet<App>();
+
+                    foreach (string f in files)
+                    {
+                        App a = new App
+                        {
+                            Name = Path.GetFileNameWithoutExtension(f),
+                            Path = f
+                        };
+
+                        if (a.Name.StartsWith(startsWith))
+                        {
+                            apps.Add(a);
+                        }
+                    }
+
+                    return apps.ToArray();
+                }
+                else
+                {
+                    return [];
                 }
             }
-
-            return apps.ToArray();
+            else
+            {
+                return [];
+            }
         }
 
         public static void RunShortcut(string shortcutPath)
