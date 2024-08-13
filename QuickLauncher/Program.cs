@@ -73,8 +73,9 @@ public class Program
                 }
                 else if (key == ConsoleKey.F12)
                 {
-                    string appDataPath = FileHelper.GetAppDataPath();
-                    Process.Start(appDataPath);
+                    string appDataPath = FileHelper.GetAppsPath();
+                    Process.Start("explorer.exe", appDataPath);
+                    Environment.Exit(0);
                 }
                 else
                 {
