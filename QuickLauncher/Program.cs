@@ -1,5 +1,6 @@
 ﻿using QuickLauncher;
 using QuickLauncher.Objects;
+using System.Diagnostics;
 
 public class Program
 {
@@ -69,6 +70,11 @@ public class Program
                 else if (key == ConsoleKey.Escape)
                 {
                     Environment.Exit(0);
+                }
+                else if (key == ConsoleKey.F12)
+                {
+                    string appDataPath = FileHelper.GetAppDataPath();
+                    Process.Start(appDataPath);
                 }
                 else
                 {
