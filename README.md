@@ -11,6 +11,7 @@ Put shortcut files in `%appdata%\QuickLauncher\Apps\0`
 | Tab   | Navigate apps list      |
 | Enter | Open first item in list |
 | Esc   | Exit                    |
+| F12   | Open apps directory     |
 
 ### Can have multiple apps directories
 - %AppData%
