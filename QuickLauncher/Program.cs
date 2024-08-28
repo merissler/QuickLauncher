@@ -79,7 +79,7 @@ public class Program
                 }
                 else
                 {
-                    if (Char.IsLetterOrDigit(keyChar) || Char.IsPunctuation(keyChar) || keyChar == ' ')
+                    if (!Char.IsControl(keyChar))
                     {
                         if (!Path.GetInvalidFileNameChars().Contains(keyChar))
                         {
