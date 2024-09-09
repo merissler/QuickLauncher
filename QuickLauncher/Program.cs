@@ -105,22 +105,34 @@ namespace QuickLauncher
             }
             else
             {
-                Console.WriteLine("QuickLauncher currently has no apps.\n");
-                Console.WriteLine("Would you like to import apps from the Windows start menu?");
-                Console.Write("(Y/N)");
-                while (true)
+                bool isDefaultDir = FileHelper.GetAppsPath() == FileHelper.GetAppsPath(appsSubDir);
+
+                if (isDefaultDir)
                 {
-                    ConsoleKeyInfo key = Console.ReadKey(true);
-                    if (key.KeyChar == 'n' || key.KeyChar == 'N' || key.Key == ConsoleKey.Escape)
+                    Console.WriteLine("QuickLauncher currently has no apps.\n");
+                    Console.WriteLine("Would you like to import apps from the Windows start menu?");
+                    Console.Write("(Y/N)");
+                    while (true)
                     {
-                        Environment.Exit(0);
+                        ConsoleKeyInfo key = Console.ReadKey(true);
+                        if (key.KeyChar == 'n' || key.KeyChar == 'N' || key.Key == ConsoleKey.Escape)
+                        {
+                            Environment.Exit(0);
+                        }
+                        else if (key.KeyChar == 'y' || key.KeyChar == 'Y')
+                        {
+                            string defaultAppsPath = FileHelper.GetAppsPath(appsSubDir);
+                            ImportFromWindows.Importer.Import(defaultAppsPath);
+                            return;
+                        }
                     }
-                    else if (key.KeyChar == 'y' || key.KeyChar == 'Y')
-                    {
-                        string defaultAppsPath = FileHelper.GetAppsPath();
-                        ImportFromWindows.Importer.Import(defaultAppsPath);
-                        return;
-                    }
+                }
+                else
+                {
+                    Console.WriteLine("QuickLauncher did not find any apps in " + appsSubDir);
+                    Console.Write("Press any key to exit...");
+                    Console.ReadKey(false);
+                    Environment.Exit(0);
                 }
             }
         }
