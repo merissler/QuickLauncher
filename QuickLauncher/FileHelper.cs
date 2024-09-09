@@ -1,15 +1,9 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using QuickLauncher.Objects;
 
 namespace QuickLauncher
 {
-    internal static class FileHelper
+    public static class FileHelper
     {
         public static string GetAppDataPath()
         {

@@ -8,8 +8,4 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\QuickLauncher\QuickLauncher.csproj" />
-  </ItemGroup>
-
 </Project>

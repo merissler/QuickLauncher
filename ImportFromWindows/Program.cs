@@ -1,34 +1,61 @@
-﻿// Source directory to search for .lnk files
-string appsRoot = Path.Combine();
-string appsUser = @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\";
-// Destination directory where .lnk files will be copied
-string dest = @"C:\DestinationDirectory";
-
-try
+﻿namespace QuickLauncher.ImportFromWindows
 {
-    // Ensure the destination directory exists
-    Directory.CreateDirectory(dest);
-
-    // Get all .lnk files in the source directory and its subdirectories
-    string[] files = Directory.GetFiles(appsRoot, "*.lnk", SearchOption.AllDirectories);
-
-    foreach (string file in files)
+    public class Program
     {
-        // Get the file name
-        string fileName = Path.GetFileName(file);
-
-        // Combine destination directory path with file name
-        string destinationFile = Path.Combine(dest, fileName);
-
-        // Copy the file to the destination directory
-        File.Copy(file, destinationFile, true);
-
-        Console.WriteLine($"Copied {file} to {destinationFile}");
+        public static void Main(string[] args)
+        {
+            if (args.Length > 0)
+            {
+                Importer.Import(args[0]);
+            }
+        }
     }
 
-    Console.WriteLine("All .lnk files have been copied.");
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"An error occurred: {ex.Message}");
+    public static class Importer
+    {
+        /// <param name="args"></param>
+        public static void Import(string destination)
+        {
+            const string startMenuSystem = @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs";
+            string startMenuUser = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Microsoft\Windows\Start Menu\Programs");
+
+            // Ensure the launcherApps directory exists
+            Directory.CreateDirectory(destination);
+
+            // Copy .lnk files from the system Start Menu
+            CopyLnkFiles(startMenuSystem, destination);
+
+            // Copy .lnk files from the user Start Menu
+            CopyLnkFiles(startMenuUser, destination);
+        }
+
+        private static void CopyLnkFiles(string sourceDirectory, string destinationDirectory)
+        {
+            try
+            {
+                // Get all .lnk files in the source directory
+                string[] lnkFiles = Directory.GetFiles(sourceDirectory, "*.lnk");
+
+                foreach (string file in lnkFiles)
+                {
+                    // Get the file name without the path
+                    string fileName = Path.GetFileName(file);
+                    // Define the destination path
+                    string destFile = Path.Combine(destinationDirectory, fileName);
+                    // Copy the file to the destination directory
+                    File.Copy(file, destFile, true); // Overwrite if the file already exists
+                }
+
+                string[] subDirs = Directory.GetDirectories(sourceDirectory);
+                foreach (string subDir in subDirs)
+                {
+                    CopyLnkFiles(subDir, destinationDirectory);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error copying files from {sourceDirectory}: {ex.Message}");
+            }
+        }
+    }
 }
