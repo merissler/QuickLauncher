@@ -4,14 +4,15 @@ Keyboard-based Windows start menu alternative
 
 App is launched when it is the only result that matches you query
 
-Put shortcut files in `%appdata%\QuickLauncher\Apps\0`
+Put shortcut files in `%appdata%\QuickLauncher\Apps\0` to add to apps list
 
-| Key   | Function                |
-| ----- | ----------------------- |
-| Tab   | Navigate apps list      |
-| Enter | Open first item in list |
-| Esc   | Exit                    |
-| F12   | Open apps directory     |
+| Key       | Function                      |
+| :-------- | :---------------------------- |
+| Tab       | Navigate apps list (forward)  |
+| Shift+Tab | Navigate apps list (backward) |
+| Enter     | Open selected item            |
+| Esc       | Exit                          |
+| F12       | Open apps directory           |
 
 ### Can have multiple apps directories
 - %AppData%
@@ -42,6 +43,6 @@ etc.
   App 3
 ```
 
-### Nesting
+### Folders
 
-If you want, you can put a shortcut to Quick Launcher that targets a different subdirectory in the apps folder
+You can add QuickLauncher as an app to redirect to a different apps list
