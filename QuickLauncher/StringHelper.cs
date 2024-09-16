@@ -38,7 +38,10 @@ namespace QuickLauncher
 
             foreach (string substring in substrings)
             {
-                if (substring.ToLower().StartsWith(query.ToLower()))
+                string simpleSubstring = substring.ToLower().Replace("(", "").Replace(")", "");
+                string simpleQuery = query.ToLower().Replace("(", "").Replace(")", "");
+
+                if (substring.ToLower().StartsWith(query.ToLower()) || simpleSubstring.StartsWith(simpleQuery))
                 {
                     return true;
                 }
